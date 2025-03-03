@@ -31,7 +31,26 @@ module GameMethods
   end
 
   def tick_title
-    state.next_scene = :play
+    nokia.sprites << {
+      x: 0, y: 0, w: 84, h: 48, path: :pixel, r: 0x43, g: 0x52, b: 0x3d
+    }
+    nokia.labels << ml_label.merge(x: 31,
+                                   y: 32,
+                                   text: "Crows",
+                                   font: "fonts/efforts_pro.ttf",
+                                   r: 0xc7,
+                                   g: 0xf0,
+                                   b: 0xd8)
+    nokia.labels << ml_label.merge(x: 30,
+                                   y: 25,
+                                   text: "Attack!",
+                                   font: "fonts/efforts_pro.ttf",
+                                   r: 0xc7,
+                                   g: 0xf0,
+                                   b: 0xd8)
+    if inputs.keyboard.key_up.space || inputs.keyboard.key_up.w || inputs.keyboard.key_up.kp_eight
+      state.next_scene = :play
+    end
   end
 
   def tick_over
@@ -484,7 +503,6 @@ module GameMethods
     frame: 0,
     state: :idle,
     state_timer: 0,
-    attack_delay: 0,
     sprite_index: 0
   )
     {
@@ -506,7 +524,6 @@ module GameMethods
       frame: frame,
       state: state,
       state_timer: state_timer,
-      attack_delay: attack_delay,
       sprite_index: sprite_index
     }
   end
@@ -1114,6 +1131,10 @@ module GameMethods
 
   def md_label
     { x: 0, y: 0, size_px: 10, font: "fonts/cg-pixel-4-5.ttf", anchor_x: 0, anchor_y: 0 }
+  end
+
+  def ml_label
+    { x: 0, y: 0, size_px: 12.5, font: "fonts/cg-pixel-4-5.ttf", anchor_x: 0, anchor_y: 0 }
   end
 
   def lg_label
